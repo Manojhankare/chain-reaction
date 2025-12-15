@@ -51,8 +51,12 @@ class RoomManager:
 
         players = list(room["players"].keys())
         rows, cols = room["grid"]
+        
+        print("INITIALIZING GAME WITH GRID:", rows, cols)
 
         room["game"] = ChainReaction(rows, cols)
+        print("BOARD SIZE:", len(room["game"].board), len(room["game"].board[0]))
+
         room["state"] = GameState(players)
         room["status"] = "running"
 
