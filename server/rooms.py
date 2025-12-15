@@ -74,6 +74,8 @@ class RoomManager:
         })
 
     async def handle_move(self, room_id, player_id, r, c):
+        print("MOVE RECEIVED:", player_id, r, c)
+
         room = self.rooms[room_id]
         game = room["game"]
         state = room["state"]
