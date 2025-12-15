@@ -1,5 +1,3 @@
-# rooms.py
-
 from game_engine import ChainReaction
 from game_state import GameState
 from config import GRID_OPTIONS, MAX_PLAYERS
@@ -38,9 +36,17 @@ class RoomManager:
 
     async def broadcast(self, room_id, message):
         room = self.rooms[room_id]
+        disconnected = []
 
-        for ws in room["players"].values():
-            await ws.send_json(message)
+        for pid, ws in room["players"].items():
+            try:
+                await ws.send_json(message)
+            except Exception:
+                disconnected.append(pid)
+
+        for pid in disconnected:
+            print("Removing disconnected player:", pid)
+            room["players"].pop(pid, None)
 
     def set_grid(self, room_id, grid_key):
         room = self.rooms[room_id]
@@ -51,7 +57,7 @@ class RoomManager:
 
         players = list(room["players"].keys())
         rows, cols = room["grid"]
-        
+
         print("INITIALIZING GAME WITH GRID:", rows, cols)
 
         room["game"] = ChainReaction(rows, cols)
@@ -64,7 +70,7 @@ class RoomManager:
             "type": "game_started",
             "grid": room["grid"],
             "turn": room["state"].current_player(),
-            "board": room["game"].board   # FIXED
+            "board": room["game"].board  # IMPORTANT
         })
 
     async def handle_move(self, room_id, player_id, r, c):
@@ -75,12 +81,9 @@ class RoomManager:
         if player_id != state.current_player():
             return
 
-        # Apply move
         game.apply_move(r, c, player_id)
 
-        # Update eliminated players
         state.update_alive_players(game.board)
-
         winner = state.check_winner()
 
         if winner:
@@ -91,7 +94,6 @@ class RoomManager:
             room["status"] = "finished"
             return
 
-        # Rotate turn
         state.next_player()
 
         await self.broadcast(room_id, {
