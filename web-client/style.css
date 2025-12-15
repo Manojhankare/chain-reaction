@@ -1,0 +1,36 @@
+body {
+    background: #181818;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+}
+
+#setup-screen {
+    margin-top: 50px;
+}
+
+input, select {
+    padding: 10px;
+    margin: 8px;
+    width: 200px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    background: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2980b9;
+}
+
+#gameCanvas {
+    margin-top: 20px;
+    border: 1px solid #444;
+    background: #222;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chain Reaction Multiplayer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="setup-screen">
+    <h2>Join Game</h2>
+
+    <input id="roomInput" placeholder="Room ID" />
+    <input id="playerInput" placeholder="Player Name" />
+
+    <label>Select Grid Size:</label>
+    <select id="gridSelect">
+        <option value="small">Small (6x8)</option>
+        <option value="medium">Medium (9x9)</option>
+        <option value="large">Large (12x10)</option>
+        <option value="giant">Giant (15x15)</option>
+    </select>
+
+    <button id="joinBtn">Join</button>
+    <button id="startBtn">Start Game</button>
+
+    <div id="playersList"></div>
+</div>
+
+
+<div id="game-screen" style="display:none;">
+    <h2 id="turnDisplay">Waiting...</h2>
+    <canvas id="gameCanvas"></canvas>
+</div>
+
+<script src="websocket.js"></script>
+<script src="board.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
