@@ -63,7 +63,8 @@ class RoomManager:
         await self.broadcast(room_id, {
             "type": "game_started",
             "grid": room["grid"],
-            "turn": room["state"].current_player()
+            "turn": room["state"].current_player(),
+            "board": room["game"].board   # FIXED
         })
 
     async def handle_move(self, room_id, player_id, r, c):
